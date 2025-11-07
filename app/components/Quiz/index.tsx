@@ -1,95 +1,105 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import { useWidgetProps } from '@/app/hooks';
 import QuizQuestion from './QuizQuestion';
 import QuizComplete from './QuizComplete';
 import { QuizManager } from './QuizManager';
-import { QuizData, Question } from './types';
 
 const TaylorFormulaTest = () => {
-    // 从 ChatGPT 获取数据
-    const rawData = useWidgetProps<Record<string, unknown>>();
-    
-    // 如果没有数据，显示加载状态
-    if (!rawData) {
-        return (
-            <div className="flex items-center justify-center min-h-screen p-4">
-                <div className="text-center">
-                    <p className="text-gray-600">等待 ChatGPT 返回数据...</p>
-                </div>
-            </div>
-        );
-    }
-    
-    const quizData = rawData as unknown as QuizData;
+  const rawData = useWidgetProps<any>();
 
-    const quizManager = useMemo(() => new QuizManager(quizData.questions), [quizData.questions]);
-    
-    const [showHint, setShowHint] = useState(false);
-    const [isCompleted, setIsCompleted] = useState(false);
-    const [, forceUpdate] = useState({});
-    
-    const handleOptionClick = (index: number) => {
-        quizManager.answerCurrentQuestion(index);
-        forceUpdate({});
-    };
-    
-    const handlePrevious = () => {
-        if (quizManager.goToPrevious()) {
-            setShowHint(false);
-            forceUpdate({});
-        }
-    };
-    
-    const handleNext = () => {
-        if (quizManager.goToNext()) {
-            setShowHint(false);
-            forceUpdate({});
-        } else if (quizManager.isLastQuestion()) {
-            // 最后一题，完成测验
-            quizManager.complete();
-            setIsCompleted(true);
-        }
-    };
-    
-    const handleToggleHint = () => {
-        setShowHint(!showHint);
-    };
-    
-    const handleRetake = () => {
-        quizManager.reset();
-        setShowHint(false);
-        setIsCompleted(false);
-        forceUpdate({});
-    };
+  const quizManager = useMemo(() => {
+    if (!rawData?.questions?.length) return null;
+    return new QuizManager(rawData.questions);
+  }, [rawData?.questions]);
 
-    // 完成页面
-    if (isCompleted) {
-        return (
-            <QuizComplete
-                score={quizManager.calculateScore()}
-                totalQuestions={quizManager.getTotalQuestions()}
-                accuracy={quizManager.calculateAccuracy()}
-                elapsedTime={quizManager.getElapsedTime()}
-                onRetake={handleRetake}
-            />
-        );
+  const [showHint, setShowHint] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [_, setUpdateTrigger] = useState(0);
+
+  const forceUpdate = useCallback(() => {
+    setUpdateTrigger(prev => prev + 1);
+  }, []);
+
+  const handleOptionClick = useCallback((index: number) => {
+    if (!quizManager) return;
+    quizManager.answerCurrentQuestion(index);
+    forceUpdate();
+  }, [quizManager, forceUpdate]);
+
+  const handlePrevious = useCallback(() => {
+    if (!quizManager) return;
+    if (quizManager.goToPrevious()) {
+      setShowHint(false);
+      forceUpdate();
     }
+  }, [quizManager, forceUpdate]);
+
+  const handleNext = useCallback(() => {
+    if (!quizManager) return;
     
+    if (quizManager.goToNext()) {
+      setShowHint(false);
+      forceUpdate();
+    } else if (quizManager.isLastQuestion()) {
+      quizManager.complete();
+      setIsCompleted(true);
+    }
+  }, [quizManager, forceUpdate]);
+
+  const handleToggleHint = useCallback(() => {
+    setShowHint(prev => !prev);
+  }, []);
+
+  const handleRetake = useCallback(() => {
+    if (!quizManager) return;
+    
+    quizManager.reset();
+    setShowHint(false);
+    setIsCompleted(false);
+    forceUpdate();
+  }, [quizManager, forceUpdate]);
+
+  // 加载状态
+  if (!quizManager) {
     return (
-        <QuizQuestion
-            question={quizManager.getCurrentQuestion()}
-            currentQuestionIndex={quizManager.getCurrentQuestionIndex()}
-            totalQuestions={quizManager.getTotalQuestions()}
-            selectedOption={quizManager.getCurrentAnswer()}
-            showHint={showHint}
-            onOptionClick={handleOptionClick}
-            onToggleHint={handleToggleHint}
-            onPrevious={handlePrevious}
-            onNext={handleNext}
-        />
-    )
-}
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <div className="text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+          <p className="mt-4 text-gray-600">Loading quiz...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 完成页面
+  if (isCompleted) {
+    return (
+      <QuizComplete
+        score={quizManager.calculateScore()}
+        totalQuestions={quizManager.getTotalQuestions()}
+        accuracy={quizManager.calculateAccuracy()}
+        elapsedTime={quizManager.getElapsedTime()}
+        onRetake={handleRetake}
+      />
+    );
+  }
+
+  // 主测验界面
+  return (
+    <QuizQuestion
+      question={quizManager.getCurrentQuestion()}
+      currentQuestionIndex={quizManager.getCurrentQuestionIndex()}
+      totalQuestions={quizManager.getTotalQuestions()}
+      selectedOption={quizManager.getCurrentAnswer()}
+      showHint={showHint}
+      onOptionClick={handleOptionClick}
+      onToggleHint={handleToggleHint}
+      onPrevious={handlePrevious}
+      onNext={handleNext}
+    />
+  );
+};
 
 export default TaylorFormulaTest;

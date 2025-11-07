@@ -100,6 +100,7 @@ const handler = createMcpHandler(async (server) => {
       outputSchema: {
         title: z.string(),
         description: z.string(),
+        language: z.string(),
         questions: z.array(
           z.object({
             id: z.string(),

@@ -14,6 +14,7 @@ export interface Question {
 export interface QuizData {
     title: string;
     description: string;
+    language?: string;
     questions: Question[];
 }
 
