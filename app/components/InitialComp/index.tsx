@@ -12,7 +12,6 @@ const InitialComp = ({children}: {children: React.ReactNode}) => {
     const language = widgetProps?.language;
     const theme = useOpenAIGlobal("theme");
 
-
     console.log('language', language);
     console.log('theme', theme);
 
