@@ -83,7 +83,9 @@ export type CallTool = (
 
 /** Extra events */
 export const SET_GLOBALS_EVENT_TYPE = "openai:set_globals";
-export class SetGlobalsEvent extends CustomEvent<{
+const CustomEventBase: typeof CustomEvent =
+  typeof CustomEvent !== 'undefined' ? CustomEvent : (class {} as any);
+export class SetGlobalsEvent extends CustomEventBase<{
   globals: Partial<OpenAIGlobals>;
 }> {
   readonly type = SET_GLOBALS_EVENT_TYPE;

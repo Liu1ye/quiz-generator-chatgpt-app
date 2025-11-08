@@ -9,5 +9,5 @@
 
 export const baseURL =
   process.env.NODE_ENV === "development"
-    ? "http://localhost:3333"
-    : "https://your-ngrok-url.ngrok.io";
+    ? "http://localhost:8080"
+    : "http://localhost:8080";
