@@ -18,7 +18,7 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="bg-[#ffffff] border-[0.5px] border-[rgba(13,13,13,0.15)] border-solid rounded-[24px] w-full max-w-[800px] mx-auto"
+            className="bg-bg-primary border-[0.5px] border-border-heavy border-solid rounded-[24px] w-full max-w-[800px] mx-auto"
         >
             <div className="flex flex-col items-center overflow-clip rounded-[inherit]">
                 {/* 标题 */}
@@ -45,7 +45,7 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.5 }}
-                        className="font-semibold text-[18px] leading-[26px] tracking-[-0.45px] text-[#0d0d0d] text-center whitespace-pre"
+                        className="font-semibold text-[18px] leading-[26px] tracking-[-0.45px] text-text-primary text-center whitespace-pre"
                     >
                         {t('quiz.completeTitle')}
                     </motion.p>
@@ -57,7 +57,7 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.6, duration: 0.5 }}
-                        className="bg-[#f3f3f3] box-border flex gap-[24px] items-center px-[32px] py-[24px] rounded-[24px]"
+                        className="bg-bg-tertiary box-border flex gap-[24px] items-center px-[32px] py-[24px] rounded-[24px]"
                     >
                         {/* Score */}
                         <motion.div
@@ -71,21 +71,21 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 0.8 }}
-                                    className="font-semibold text-[24px] leading-[28px] tracking-[-0.25px] text-[#0d0d0d]"
+                                    className="font-semibold text-[24px] leading-[28px] tracking-[-0.25px] text-text-primary"
                                 >
                                     {score}
                                 </motion.p>
-                                <p className="font-semibold text-[14px] leading-[18px] tracking-[-0.3px] text-[#8f8f8f]">
+                                <p className="font-semibold text-[14px] leading-[18px] tracking-[-0.3px] text-text-tertiary">
                                     / {totalQuestions}
                                 </p>
                             </div>
-                            <p className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-[#8f8f8f]">
+                            <p className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-text-tertiary">
                                 {t('quiz.score')}
                             </p>
                         </motion.div>
                         
                         {/* Divider */}
-                        <div className="hidden md:block h-[40px] w-[1px] bg-[rgba(13,13,13,0.1)]"></div>
+                        <div className="hidden md:block h-[40px] w-[1px] bg-border-light"></div>
                         
                         {/* Accuracy */}
                         <motion.div
@@ -98,17 +98,17 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 1.0 }}
-                                className="font-semibold text-[24px] leading-[28px] tracking-[-0.25px] text-[#0d0d0d]"
+                                className="font-semibold text-[24px] leading-[28px] tracking-[-0.25px] text-text-primary"
                             >
                                 {accuracy}%
                             </motion.p>
-                            <p className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-[#8f8f8f]">
+                            <p className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-text-tertiary">
                                 {t('quiz.accuracy')}
                             </p>
                         </motion.div>
                         
                         {/* Divider */}
-                        <div className="hidden md:block h-[40px] w-[1px] bg-[rgba(13,13,13,0.1)]"></div>
+                        <div className="hidden md:block h-[40px] w-[1px] bg-border-light"></div>
                         
                         {/* Time Spent */}
                         <motion.div
@@ -121,11 +121,11 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 1.2 }}
-                                className="font-semibold text-[24px] leading-[28px] tracking-[-0.25px] text-[#0d0d0d]"
+                                className="font-semibold text-[24px] leading-[28px] tracking-[-0.25px] text-text-primary"
                             >
                                 {formatTime(elapsedTime)}
                             </motion.p>
-                            <p className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-[#8f8f8f]">
+                            <p className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-text-tertiary">
                                 {t('quiz.timeSpent')}
                             </p>
                         </motion.div>
@@ -141,10 +141,10 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-[rgba(13,13,13,0)] border border-[rgba(13,13,13,0.1)] border-solid box-border flex gap-[4px] items-center justify-center px-[16px] py-[8px] rounded-[999px] transition-colors"
+                            className="bg-interactive-bg-secondary-default border border-interactive-border-secondary-default border-solid box-border flex gap-[4px] items-center justify-center px-[16px] py-[8px] rounded-[999px] transition-colors"
                             onClick={onRetake}
                         >
-                            <p className="font-medium text-[14px] leading-[20px] tracking-[-0.18px] text-[#0d0d0d] whitespace-pre">
+                            <p className="font-medium text-[14px] leading-[20px] tracking-[-0.18px] text-interactive-label-secondary-default whitespace-pre">
                                 {t('quiz.retake')}
                             </p>
                         </motion.button>

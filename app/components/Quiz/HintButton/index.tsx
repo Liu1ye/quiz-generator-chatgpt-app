@@ -35,7 +35,7 @@ const HintButton = ({ hint, showHint, onToggleHint }: HintButtonProps) => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                        className="absolute bottom-full left-0 mb-[8px] bg-[#ffffff] border border-[rgba(13,13,13,0.15)] rounded-[12px] p-[12px] shadow-lg min-w-[300px] max-w-[500px] z-10"
+                        className="absolute bottom-full left-0 mb-[8px] bg-bg-primary border border-border-heavy rounded-[12px] p-[12px] shadow-lg min-w-[300px] max-w-[500px] z-10"
                     >
                         <div className='flex items-center gap-x-[8px]'>
                             <motion.div
@@ -44,13 +44,13 @@ const HintButton = ({ hint, showHint, onToggleHint }: HintButtonProps) => {
                             >
                                 <Image src='/lightbulb-glow.svg' alt="LightbulbGlow" width={16} height={16} />
                             </motion.div>
-                            <span className='text-[14px] font-[600]'>{t('quiz.hint')}</span>
+                            <span className='text-[14px] font-[600] text-text-primary'>{t('quiz.hint')}</span>
                         </div>
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.1 }}
-                            className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-[#5d5d5d]"
+                            className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-text-secondary"
                         >
                             {hint}
                         </motion.div>
@@ -63,12 +63,12 @@ const HintButton = ({ hint, showHint, onToggleHint }: HintButtonProps) => {
                 whileTap={{ scale: 0.98 }}
                 className={`box-border flex gap-[4px] items-center px-[10px] py-[8px] rounded-[8px] transition-colors ${
                     showHint 
-                        ? 'bg-[rgba(13,13,13,0.05)]' 
-                        : 'bg-[rgba(13,13,13,0)]'
+                        ? 'bg-interactive-bg-tertiary-press' 
+                        : 'bg-interactive-bg-secondary-default'
                 }`}
                 onClick={onToggleHint}
             >
-                <p className="font-medium text-[14px] leading-[20px] tracking-[-0.18px] text-[#5d5d5d] whitespace-pre">
+                <p className="font-medium text-[14px] leading-[20px] tracking-[-0.18px] text-text-secondary whitespace-pre">
                     {showHint ? t('quiz.hideHint') : t('quiz.showHint')}
                 </p>
                 <motion.div

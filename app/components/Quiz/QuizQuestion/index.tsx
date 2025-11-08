@@ -38,7 +38,7 @@ const QuizQuestion = ({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
-            className="bg-[#ffffff] border-[0.5px] border-[rgba(13,13,13,0.15)] border-solid rounded-[24px] w-full max-w-[800px] mx-auto"
+            className="bg-bg-primary border-[0.5px] border-border-heavy border-solid rounded-[24px] w-full max-w-[800px] mx-auto"
         >
             <div className="flex flex-col items-center overflow-clip rounded-[inherit]">
                 {/* 标题 */}
@@ -48,10 +48,10 @@ const QuizQuestion = ({
                     transition={{ delay: 0.1 }}
                     className="box-border flex flex-col gap-[10px] items-start p-[16px] w-full"
                 >
-                    <p className="font-normal text-[16px] leading-[26px] tracking-[-0.4px] text-[#8f8f8f] w-full">
+                    <p className="font-normal text-[16px] leading-[26px] tracking-[-0.4px] text-text-tertiary w-full">
                         {currentQuestionIndex + 1} / {totalQuestions}
                     </p>
-                    <p className="font-medium text-[16px] leading-[26px] tracking-[-0.4px] text-[#0d0d0d] w-full">
+                    <p className="font-medium text-[16px] leading-[26px] tracking-[-0.4px] text-text-primary w-full">
                         {question.question}
                     </p>
                 </motion.div>
@@ -72,7 +72,7 @@ const QuizQuestion = ({
                 </div>
 
                 {/* Card footer */}
-                <div className="box-border flex gap-[8px] items-center p-[16px] w-full border-t border-[rgba(13,13,13,0.05)]">
+                <div className="box-border flex gap-[8px] items-center p-[16px] w-full border-t border-border-light">
                     <div className="flex-1 flex gap-[8px] items-start">
                         <HintButton
                             hint={question.hint}
@@ -84,7 +84,7 @@ const QuizQuestion = ({
                         <motion.button
                             whileHover={currentQuestionIndex > 0 ? { scale: 1.05 } : {}}
                             whileTap={currentQuestionIndex > 0 ? { scale: 0.95 } : {}}
-                            className={`bg-[rgba(13,13,13,0)] border border-[rgba(13,13,13,0.1)] border-solid box-border flex gap-[4px] items-center justify-center px-[16px] py-[8px] rounded-[999px] transition-colors ${
+                            className={`bg-interactive-bg-secondary-default border border-interactive-border-secondary-default border-solid box-border flex gap-[4px] items-center justify-center px-[16px] py-[8px] rounded-[999px] transition-colors ${
                                 currentQuestionIndex === 0 
                                     ? 'opacity-50 cursor-not-allowed' 
                                     : ''
@@ -92,7 +92,7 @@ const QuizQuestion = ({
                             onClick={onPrevious}
                             disabled={currentQuestionIndex === 0}
                         >
-                            <p className="font-medium text-[14px] leading-[20px] tracking-[-0.18px] text-[#0d0d0d] whitespace-pre">
+                            <p className="font-medium text-[14px] leading-[20px] tracking-[-0.18px] text-interactive-label-secondary-default whitespace-pre">
                                 {t('quiz.previous')}
                             </p>
                         </motion.button>
@@ -103,15 +103,15 @@ const QuizQuestion = ({
                             transition={{ duration: 0.3 }}
                             className={`box-border flex gap-[4px] items-center justify-center px-[16px] py-[8px] rounded-[999px] transition-colors ${
                                 selectedOption !== null
-                                    ? 'bg-[#0d0d0d]'
-                                    : 'bg-[rgba(13,13,13,0)] border border-[rgba(13,13,13,0.1)]'
+                                    ? 'bg-interactive-bg-primary-default'
+                                    : 'bg-interactive-bg-secondary-default border border-interactive-border-secondary-default'
                             }`}
                             onClick={onNext}
                         >
                             <p className={`font-medium text-[14px] leading-[20px] tracking-[-0.18px] whitespace-pre ${
                                 selectedOption !== null
-                                    ? 'text-[#ffffff]'
-                                    : 'text-[#0d0d0d]'
+                                    ? 'text-interactive-label-primary-default'
+                                    : 'text-interactive-label-secondary-default'
                             }`}>
                                 {isLastQuestion ? t('quiz.complete') : t('quiz.next')}
                             </p>

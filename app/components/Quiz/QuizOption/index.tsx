@@ -24,48 +24,48 @@ const QuizOption = ({
     
     const getOptionBgColor = () => {
         if (selectedOption === null) {
-            return 'bg-[rgba(13,13,13,0)]';
+            return 'bg-interactive-bg-secondary-default';
         }
         
         if (isSelected) {
             return isCorrect 
-                ? 'bg-[rgba(0,136,98,0.08)]' 
-                : 'bg-[rgba(215,65,52,0.08)]';
+                ? 'bg-success-bg' 
+                : 'bg-error-bg';
         }
         
         if (selectedOption !== null && !isCorrect && index === correctAnswerIndex) {
-            return 'bg-[rgba(0,136,98,0.08)]';
+            return 'bg-success-bg';
         }
         
-        return 'bg-[rgba(13,13,13,0)]';
+        return 'bg-interactive-bg-secondary-default';
     };
     
     const getOptionTextColor = () => {
         if (selectedOption === null) {
-            return 'text-[#5d5d5d]';
+            return 'text-text-secondary';
         }
         
         if (isSelected) {
-            return isCorrect ? 'text-[#00825e]' : 'text-[#d23a2e]';
+            return isCorrect ? 'text-success-secondary' : 'text-error-secondary';
         }
         
         if (selectedOption !== null && index === correctAnswerIndex) {
-            return 'text-[#00825e]';
+            return 'text-success-secondary';
         }
         
-        return 'text-[#8f8f8f]';
+        return 'text-text-tertiary';
     };
     
     const getOptionLabelColor = () => {
         if (selectedOption === null) {
-            return 'text-[#0d0d0d]';
+            return 'text-text-primary';
         }
         
         if (isSelected || index === correctAnswerIndex) {
-            return 'text-[#0d0d0d]';
+            return 'text-text-primary';
         }
         
-        return 'text-[#8f8f8f]';
+        return 'text-text-tertiary';
     };
     
     const shouldShowExplanation = () => {
@@ -90,7 +90,7 @@ const QuizOption = ({
             transition={{ delay: index * 0.05, duration: 0.3 }}
             whileHover={!isDisabled() && selectedOption === null ? { scale: 1.01 } : {}}
             whileTap={!isDisabled() && selectedOption === null ? { scale: 0.99 } : {}}
-            className={`${getOptionBgColor()} border border-[rgba(13,13,13,0.1)] border-solid box-border flex gap-[8px] items-center pl-[6px] pr-[8px] py-[6px] rounded-[16px] w-full ${
+            className={`${getOptionBgColor()} border border-interactive-border-tertiary-default border-solid box-border flex gap-[8px] items-center pl-[6px] pr-[8px] py-[6px] rounded-[16px] w-full ${
                 isDisabled() 
                     ? 'cursor-not-allowed opacity-60' 
                     : selectedOption === null 
@@ -140,7 +140,7 @@ const QuizOption = ({
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
                                 transition={{ duration: 0.3 }}
-                                className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-[#5d5d5d] w-full overflow-hidden"
+                                className="font-normal text-[14px] leading-[20px] tracking-[-0.18px] text-text-secondary w-full overflow-hidden"
                             >
                                 {option.explanation}
                             </motion.div>

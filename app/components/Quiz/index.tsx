@@ -66,10 +66,10 @@ const TaylorFormulaTest = () => {
   // 加载状态
   if (!quizManager) {
     return (
-      <div className="flex items-center justify-center min-h-screen p-4">
+      <div className="flex items-center justify-center min-h-screen p-4 bg-bg-primary">
         <div className="text-center">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
-          <p className="mt-4 text-gray-600">Loading quiz...</p>
+          <div className="inline-block text-text-primary-1 h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" />
+          <p className="mt-4 text-text-primary-1">Loading quiz...</p>
         </div>
       </div>
     );

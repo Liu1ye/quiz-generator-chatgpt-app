@@ -10,10 +10,7 @@ import i18n from '@/app/i18n';
 const InitialComp = ({children}: {children: React.ReactNode}) => {
     const widgetProps = useWidgetProps<{ language?: string }>();
     const language = widgetProps?.language;
-    const theme = useOpenAIGlobal("theme");
-
-    console.log('language', language);
-    console.log('theme', theme);
+    // const theme = useOpenAIGlobal("theme");
 
     useEffect(() => {
         if (language) {
