@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useRef, useEffect } from 'react';
 import QuizOption from '../QuizOption';
 import HintButton from '../HintButton';
 import { Question } from '../types';
+import './index.css';
 
 interface QuizQuestionProps {
     question: Question;
@@ -31,56 +31,17 @@ const QuizQuestion = ({
     const { t } = useTranslation();
     const correctAnswerIndex = question.options.findIndex(opt => opt.isCorrect);
     const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
-    const containerRef = useRef<HTMLDivElement>(null);
-
-    // 监听容器高度变化并通知外部容器
-    // @ts-ignore
-    useEffect(() => {
-        if (!containerRef.current) return;
-
-        // 创建 ResizeObserver 监听高度变化
-        const resizeObserver = new ResizeObserver((entries) => {
-            for (const entry of entries) {
-                // 获取容器的实际高度(包含 margin)
-                const height = entry.target.getBoundingClientRect().height;
-
-                // 通知 OpenAI 更新外部容器高度
-                // @ts-ignore
-                if (window.openai?.notifyIntrinsicHeight) {
-                    // @ts-ignore
-                    window.openai.notifyIntrinsicHeight(Math.ceil(height));
-                }
-            }
-        });
-
-        // 开始监听
-        resizeObserver.observe(containerRef.current);
-
-        // 初始化时也通知一次高度
-        const initialHeight = containerRef.current.getBoundingClientRect().height;
-        // @ts-ignore
-        if (window.openai?.notifyIntrinsicHeight) {
-            // @ts-ignore
-            window.openai.notifyIntrinsicHeight(Math.ceil(initialHeight));
-        }
-
-        // 清理函数
-        return () => {
-            resizeObserver.disconnect();
-        };
-    }, [selectedOption]);
 
     return (
         <motion.div
-            ref={containerRef}
             key={currentQuestionIndex}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
-            className="bg-bg-primary border-[0.5px] border-border-heavy border-solid rounded-[24px] w-full max-w-[800px] mx-auto"
+            className="quiz-question-container bg-bg-primary border-[0.5px] border-border-heavy border-solid rounded-[24px] w-full max-w-[800px] mx-auto"
         >
-            <div className="flex flex-col items-center overflow-clip rounded-[inherit]">
+            <div className="quiz-question-inner flex flex-col items-center overflow-clip rounded-[inherit]">
                 {/* 标题 */}
                 <motion.div
                     initial={{ opacity: 0, y: -10 }}
