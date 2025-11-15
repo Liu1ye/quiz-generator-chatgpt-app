@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import MathText from '../MathText';
 import { QuestionOption } from '../types';
 
 interface QuizOptionProps {
@@ -130,9 +131,10 @@ const QuizOption = ({
                     </AnimatePresence>
                 </div>
                 <div className="flex-1 flex flex-col gap-[8px] items-center justify-center pl-0 pr-[8px] py-[9px]">
-                    <p className={`font-normal text-[16px] leading-[26px] tracking-[-0.4px] ${getOptionTextColor()} w-full`}>
-                        {option.text}
-                    </p>
+                    <MathText
+                        text={option.text}
+                        className={`font-normal text-[16px] leading-[26px] tracking-[-0.4px] ${getOptionTextColor()} w-full`}
+                    />
                     <AnimatePresence>
                         {shouldShowExplanation() && (
                             <motion.div

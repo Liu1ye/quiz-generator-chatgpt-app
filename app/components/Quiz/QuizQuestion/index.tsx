@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import QuizOption from '../QuizOption';
 import HintButton from '../HintButton';
+import MathText from '../MathText';
 import { Question } from '../types';
 
 interface QuizQuestionProps {
@@ -98,9 +99,10 @@ const QuizQuestion = ({
                     <p className="font-normal text-[16px] leading-[26px] tracking-[-0.4px] text-text-tertiary w-full">
                         {currentQuestionIndex + 1} / {totalQuestions}
                     </p>
-                    <p className="font-medium text-[16px] leading-[26px] tracking-[-0.4px] text-text-primary w-full">
-                        {question.question}
-                    </p>
+                    <MathText
+                        text={question.question}
+                        className="font-medium text-[16px] leading-[26px] tracking-[-0.4px] text-text-primary w-full"
+                    />
                 </motion.div>
 
                 {/* 选项列表 */}
