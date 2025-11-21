@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { QuizCompleteProps } from '../types';
 
-const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }: QuizCompleteProps) => {
+const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake, onSave }: QuizCompleteProps) => {
     const { t } = useTranslation();
     
     const formatTime = (ms: number) => {
@@ -130,6 +130,25 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
                             </p>
                         </motion.div>
                     </motion.div>
+
+                    {/* Save Button */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.3, duration: 0.3 }}
+                        className="flex gap-[8px] items-center"
+                    >
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-interactive-bg-primary-default w-[160px] py-[8px] rounded-full transition-colors"
+                            onClick={onSave}
+                        >
+                            <p className="font-medium text-interactive-label-primary-default text-[14px] leading-[20px] tracking-[-0.18px] whitespace-pre">
+                                {t('quiz.retake')}
+                            </p>
+                        </motion.button>
+                    </motion.div>
                     
                     {/* Retake Button */}
                     <motion.div
@@ -141,7 +160,7 @@ const QuizComplete = ({ score, totalQuestions, accuracy, elapsedTime, onRetake }
                         <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-interactive-bg-secondary-default border border-interactive-border-secondary-default border-solid box-border flex gap-[4px] items-center justify-center px-[16px] py-[8px] rounded-[999px] transition-colors"
+                            className="bg-interactive-bg-secondary-default border border-interactive-border-secondary-default border-solid box-border w-[160px] py-[8px] rounded-full transition-colors"
                             onClick={onRetake}
                         >
                             <p className="font-medium text-[14px] leading-[20px] tracking-[-0.18px] text-interactive-label-secondary-default whitespace-pre">

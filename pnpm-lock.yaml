@@ -27,8 +27,8 @@ importers:
         specifier: ^0.16.25
         version: 0.16.25
       mcp-handler:
-        specifier: ^1.0.2
-        version: 1.0.2(@modelcontextprotocol/sdk@1.20.0)(next@15.5.4(@babel/core@7.28.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
+        specifier: ^1.0.3
+        version: 1.0.3(@modelcontextprotocol/sdk@1.20.0)(next@15.5.4(@babel/core@7.28.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0))
       motion:
         specifier: ^12.23.24
         version: 12.23.24(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -61,22 +61,22 @@ importers:
         specifier: ^8.1.0
         version: 8.1.0(typescript@5.9.3)
       '@tailwindcss/postcss':
-        specifier: ^4
+        specifier: ^4.1.14
         version: 4.1.14
       '@types/node':
-        specifier: ^20
+        specifier: ^20.19.19
         version: 20.19.19
       '@types/react':
-        specifier: ^19
+        specifier: ^19.2.2
         version: 19.2.2
       '@types/react-dom':
-        specifier: ^19
+        specifier: ^19.2.1
         version: 19.2.1(@types/react@19.2.2)
       tailwindcss:
-        specifier: ^4
+        specifier: ^4.1.14
         version: 4.1.14
       typescript:
-        specifier: ^5
+        specifier: ^5.9.3
         version: 5.9.3
 
 packages:
@@ -1570,11 +1570,11 @@ packages:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
 
-  mcp-handler@1.0.2:
-    resolution: {integrity: sha512-dTZR0KZ0rqIORHFUmG4wFMJwp608gtc2x602hxaFQOmb0L2Ahc++Vcc6QoRWr92VTK7DQmEIqrHbhVCjomTplg==}
+  mcp-handler@1.0.3:
+    resolution: {integrity: sha512-AQ8I1a6wyfK0hIHeGqvjXqKHGvABDvw5dvwJvMjUiuKAUDgFsFtPExqThFOE/boOTbBKXn7fPSJ94soT0GjL+A==}
     hasBin: true
     peerDependencies:
-      '@modelcontextprotocol/sdk': ^1.12.0
+      '@modelcontextprotocol/sdk': ^1.17.2
       next: '>=13.0.0'
     peerDependenciesMeta:
       next:
@@ -3621,7 +3621,7 @@ snapshots:
 
   math-intrinsics@1.1.0: {}
 
-  mcp-handler@1.0.2(@modelcontextprotocol/sdk@1.20.0)(next@15.5.4(@babel/core@7.28.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)):
+  mcp-handler@1.0.3(@modelcontextprotocol/sdk@1.20.0)(next@15.5.4(@babel/core@7.28.5)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)):
     dependencies:
       '@modelcontextprotocol/sdk': 1.20.0
       chalk: 5.6.2

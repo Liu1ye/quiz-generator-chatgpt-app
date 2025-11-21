@@ -1,4 +1,5 @@
-import { Question } from './types';
+import { Question, QuizData } from './types';
+
 
 export class QuizManager {
     private questions: Question[];
@@ -6,13 +7,17 @@ export class QuizManager {
     private currentQuestionIndex: number;
     private startTime: number;
     private endTime: number | null;
+    private info: any
+    private sendFollowUpMessage: any
 
-    constructor(questions: Question[]) {
-        this.questions = questions;
-        this.answers = new Array(questions.length).fill(null);
+    constructor(quizData: QuizData, sendFollowUpMessage: any) {
+        this.questions = quizData.questions;
+        this.answers = new Array(quizData.questions.length).fill(null);
         this.currentQuestionIndex = 0;
         this.startTime = Date.now();
         this.endTime = null;
+        this.info = quizData
+        this.sendFollowUpMessage = sendFollowUpMessage
     }
 
     // 获取当前题目
@@ -158,5 +163,25 @@ export class QuizManager {
     getProgress(): number {
         return Math.round((this.getAnsweredQuestionsCount() / this.questions.length) * 100);
     }
-}
 
+    // 保存题目
+    async save(): Promise<void> {
+        const error = this.answers.map((i, j) => {
+            if(i !== null){
+                return this.questions[j].options[i].isCorrect ? true : false
+            }
+            return null
+        })
+
+        // 包装在 data 字段中，匹配后端 inputSchema 结构
+        const payload = {
+            data: {
+                ...this.info,
+                answer: this.answers,
+                error,
+            }
+        }
+
+        return this.sendFollowUpMessage({prompt: '1+1=几'})
+    }
+}

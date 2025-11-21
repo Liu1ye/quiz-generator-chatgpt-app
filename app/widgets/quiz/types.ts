@@ -24,4 +24,5 @@ export interface QuizCompleteProps {
     accuracy: number;
     elapsedTime: number;
     onRetake: () => void;
+    onSave: () => void;
 }

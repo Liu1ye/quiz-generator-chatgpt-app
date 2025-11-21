@@ -1,0 +1,143 @@
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { z } from "zod";
+import { ContentWidget, widgetMeta } from "./types";
+
+/**
+ * 注册 quiz-generator tool
+ * 用于生成测验并显示 widget
+ */
+export async function registerQuizGeneratorTool(
+  server: McpServer,
+  html: string,
+) {
+  const quizGeneratorWidget: ContentWidget = {
+    id: "quiz-generator",
+    title: "Quiz Generator",
+    templateUri: "ui://widget/quiz-generator-template.html",
+    invoking: "Loading quiz...",
+    invoked: "Quiz loaded",
+    html: html,
+    description: "Generates a quiz based on the user's input",
+    widgetDomain: "https://sider.ai",
+  };
+
+  // 注册 widget 资源
+  server.registerResource(
+    "quiz-generator-widget",
+    quizGeneratorWidget.templateUri,
+    {
+      title: quizGeneratorWidget.title,
+      description: quizGeneratorWidget.description,
+      mimeType: "text/html+skybridge",
+      _meta: {
+        "openai/widgetDescription": quizGeneratorWidget.description,
+        "openai/widgetPrefersBorder": true,
+      },
+    },
+    async (uri) => ({
+      contents: [
+        {
+          uri: uri.href,
+          mimeType: "text/html+skybridge",
+          text: `<html>${quizGeneratorWidget.html}</html>`,
+          _meta: {
+            "openai/widgetDescription": quizGeneratorWidget.description,
+            "openai/widgetPrefersBorder": true,
+            "openai/widgetDomain": quizGeneratorWidget.widgetDomain,
+          },
+        },
+      ],
+    })
+  );
+
+  // 注册 quiz-generator tool
+  server.registerTool(
+    quizGeneratorWidget.id,
+    {
+      title: quizGeneratorWidget.title,
+      description: `Generate a quiz with multiple-choice questions on a given topic. You (ChatGPT) should generate the quiz content including questions, hints, options with explanations for each option, then pass the complete data to this tool for display.
+
+IMPORTANT: For mathematical formulas, use KaTeX syntax:
+- Inline formulas: $formula$ (e.g., $x^2 + y^2 = z^2$)
+- Display (block) formulas: $$formula$$ (e.g., $$\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$$)
+
+KaTeX syntax examples:
+- Fractions: $\\frac{a}{b}$
+- Powers: $x^2$, $e^{i\\pi}$
+- Subscripts: $a_n$
+- Square root: $\\sqrt{x}$
+- Greek letters: $\\alpha$, $\\beta$, $\\pi$`,
+      inputSchema: {
+        language: z.string().default("en").describe("Language code (ISO 639-1, e.g., 'en', 'zh-CN', 'ja'). Default: en"),
+        data: z.object({
+          topic: z.string().describe("The topic for the quiz"),
+          numQuestions: z.number().int().min(1).max(10).default(5).describe("Number of questions to generate"),
+          difficulty: z.enum(["easy", "medium", "hard"]).default("medium").describe("Difficulty level"),
+          title: z.string().describe("Quiz title (e.g., 'Python Programming Quiz')"),
+          description: z.string().describe("Brief description of the quiz"),
+          questions: z.array(
+            z.object({
+              id: z.string().describe("Unique question ID (e.g., 'q1', 'q2')"),
+              question: z.string().describe("The question text. For mathematical formulas, use KaTeX syntax: $...$ for inline formulas, $$...$$ for display formulas"),
+              hint: z.string().describe("Helpful hint for this question. For mathematical formulas, use KaTeX syntax: $...$ for inline formulas, $$...$$ for display formulas"),
+              options: z.array(
+                z.object({
+                  text: z.string().describe("Option text. For mathematical formulas, use KaTeX syntax: inline formulas with $...$ (e.g., '$x^2 + y^2 = z^2$') and display formulas with $$...$$ (e.g., '$$\\frac{a}{b}$$')"),
+                  isCorrect: z.boolean().describe("Whether this option is the correct answer"),
+                  explanation: z.string().describe("Explanation for this option (why it's correct or why it's wrong). For mathematical formulas, use KaTeX syntax: $...$ for inline formulas, $$...$$ for display formulas"),
+                })
+              ).length(4).describe("Array of answer options (typically 4). Each question must have exactly 4 options, and only ONE option should have isCorrect: true"),
+            })
+          ).describe("Array of quiz questions")
+        }),
+      },
+      // The widget consumes only these fields as props via useWidgetProps
+      outputSchema: {
+        language: z.string(),
+        data: z.object({
+          title: z.string(),
+          description: z.string(),
+          questions: z.array(
+            z
+              .object({
+                id: z.string(),
+                question: z.string(),
+                hint: z.string(),
+                options: z
+                  .array(
+                    z.object({
+                      text: z.string(),
+                      isCorrect: z.boolean(),
+                      explanation: z.string(),
+                    })
+                  )
+                  .length(4, "Each question must have exactly 4 options"),
+              })
+              .refine(
+                (q) => q.options.filter((o) => o.isCorrect).length === 1,
+                {
+                  message: "Each question must have exactly one correct option",
+                }
+              )
+          ),
+        }),
+      },
+      _meta: widgetMeta(quizGeneratorWidget),
+    },
+    async ({ language, data }) => {
+      const { title, description, questions } = data;
+      return {
+        content: [],
+        structuredContent: {
+          language,
+          type: 'quiz',
+          data: {
+            title,
+            description,
+            questions,
+          },
+        },
+      };
+    }
+  );
+}

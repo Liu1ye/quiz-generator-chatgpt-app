@@ -1,20 +1,23 @@
 'use client';
 
 import { useMemo, useState, useCallback } from 'react';
-import { useWidgetProps } from '@/app/hooks';
+import { useCallTool, useSendMessage, useWidgetProps } from '@/app/hooks';
 import QuizQuestion from './QuizQuestion';
 import QuizComplete from './QuizComplete';
 import { QuizManager } from './QuizManager';
 import { QuizData } from './types';
 import { Skeleton } from './Skeleton';
 
-const TaylorFormulaTest = () => {
+const Quiz = () => {
   const widgetProps = useWidgetProps<{ language?: string; data?: QuizData }>();
+  const sendFollowUpMessage = useSendMessage()
   const quizData = widgetProps?.data;
+
+  console.log(widgetProps, 'widgetProps')
 
   const quizManager = useMemo(() => {
     if (!quizData?.questions?.length) return null;
-    return new QuizManager(quizData.questions);
+    return new QuizManager(quizData, sendFollowUpMessage);
   }, [quizData?.questions]);
 
   const [showHint, setShowHint] = useState(false);
@@ -64,6 +67,10 @@ const TaylorFormulaTest = () => {
     forceUpdate();
   }, [quizManager, forceUpdate]);
 
+  const handleSave = () => {
+    const res = quizManager?.save()
+  }
+
   // 加载状态
   if (!quizManager) {
     return (
@@ -80,6 +87,7 @@ const TaylorFormulaTest = () => {
         accuracy={quizManager.calculateAccuracy()}
         elapsedTime={quizManager.getElapsedTime()}
         onRetake={handleRetake}
+        onSave={handleSave}
       />
     );
   }
@@ -100,4 +108,4 @@ const TaylorFormulaTest = () => {
   );
 };
 
-export default TaylorFormulaTest;
+export default Quiz;

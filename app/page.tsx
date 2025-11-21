@@ -1,9 +1,7 @@
 "use client";
 
-import Quiz from "./components/Quiz";
+import WidgetSelector from "./widgets";
 
 export default function Home() {
-  return (
-      <Quiz />
-  );
+  return <WidgetSelector />;
 }
