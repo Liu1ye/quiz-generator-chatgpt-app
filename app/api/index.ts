@@ -1,5 +1,5 @@
-import { QuizData } from "../components/Quiz/types";
 import { API_URL } from "../lib/constant";
+import { QuizData } from "../widgets/quiz/types";
 
 export const appName = 'ChitChat_Web'
 export const appVersion = '1.0.0'
